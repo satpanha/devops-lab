@@ -31,7 +31,7 @@ test('POST /notes creates a note', async () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ text: '  Learn CI  ' })
     });
-    assert.equal(response.status, 200);
+    assert.equal(response.status, 201);
     assert.deepEqual(await response.json(), { id: 1, text: 'Learn CI' });
   });
 });
