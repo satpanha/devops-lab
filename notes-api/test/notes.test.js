@@ -92,3 +92,14 @@ test('unsupported methods return 405', async () => {
     assert.equal(response.headers.get('allow'), 'GET, POST');
   });
 });
+test('POST /notes with blank text returns 400', async () => {
+  await withServer(async (base) => {
+    const response = await fetch(`${base}/notes`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ text: '   ' })
+    });
+    assert.equal(response.status, 400);
+    assert.deepEqual(await response.json(), { error: 'text is required' });
+  });
+});
