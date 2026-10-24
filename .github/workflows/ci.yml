@@ -1,0 +1,46 @@
+name: Notes API CI
+
+on:
+  push:
+    branches: [main, 'feat/**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [22, 24]
+    defaults:
+      run:
+        working-directory: notes-api
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Check coverage thresholds
+        run: npm run coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-node-${{ matrix.node-version }}
+          path: notes-api/coverage/
+          if-no-files-found: warn
