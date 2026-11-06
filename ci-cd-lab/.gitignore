@@ -1,0 +1,13 @@
+node_modules/
+coverage/
+.env
+.env.*
+
+# Yarn 4 (keep the lockfile and config, ignore caches and local state)
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
